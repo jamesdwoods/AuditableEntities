@@ -20,10 +20,13 @@ Entity Framework Core-managed SQL Server entities.
     support without re-implementing it.
 - **AuditableEntities.Data** — EF Core + SQL Server implementation:
   - `AppDbContext` — DbContext with `Products` and `ProductAuditTrailEntries` DbSets.
-  - `Sample.Product` — example entity (`Entity<int>`) that implements `IAudited<Product, int>`
-    directly, exposing its audit history as the EF navigation collection `AuditTrail`
-    (no separate repository/reader class needed — just `.Include(p => p.AuditTrail)`).
-  - `Sample.ProductAuditTrailEntry` — concrete `AuditTrailEntry<Product, int>`.
+  - `Sample.Product` — example entity extending `AuditedEntity<Product, int>` (rather than
+    implementing `IAudited` itself), so it gets the `AuditTrail` navigation collection and
+    `GetAuditTrail`/`GetAuditTrailEntries` for free — just `.Include(p => p.AuditTrail)`.
+  - `Sample.ProductAuditTrailEntry` — concrete `AuditTrailEntry<Product, int>`, mapped via
+    EF Core table-per-hierarchy onto the same `ProductAuditTrailEntries` table as the
+    abstract base type (it's the only concrete leaf, so the `Discriminator` column is
+    always `"ProductAuditTrailEntry"`).
   - `AppDbContextFactory` — design-time factory so `dotnet ef` works without a startup project.
   - `Migrations/` — initial migration creating `Products` and `ProductAuditTrailEntries`
     tables with a FK from the audit table to `Products.Id`.
@@ -48,9 +51,12 @@ at runtime (e.g. from configuration/DI) instead.
 
 ## Extending to a new entity
 
-1. Create `MyEntity : Entity<TKey>, IAudited<MyEntity, TKey>` with an
-   `ICollection<MyEntityAuditTrailEntry> AuditTrail` navigation property.
+1. Create `MyEntity : AuditedEntity<MyEntity, TKey>` — no need to implement `IAudited`
+   or `AuditTrail` yourself, it's inherited.
 2. Create `MyEntityAuditTrailEntry : AuditTrailEntry<MyEntity, TKey>`.
-3. Register both `DbSet`s and configure the relationship in `AppDbContext.OnModelCreating`,
-   mirroring the `Product`/`ProductAuditTrailEntry` configuration.
+3. Register the `MyEntity` `DbSet` and configure the relationship + the base
+   `AuditTrailEntry<MyEntity, TKey>` type (key, columns, table name) in
+   `AppDbContext.OnModelCreating`, mirroring the `Product`/`ProductAuditTrailEntry`
+   configuration (EF Core maps `MyEntityAuditTrailEntry` onto the same table via
+   table-per-hierarchy).
 4. Add a migration.

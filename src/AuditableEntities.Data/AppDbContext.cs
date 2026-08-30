@@ -1,4 +1,5 @@
 using AuditableEntities.Data.Sample;
+using AuditableEntities.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuditableEntities.Data;
@@ -105,7 +106,12 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<ProductAuditTrailEntry>(builder =>
+        // AuditTrail is typed as the abstract AuditTrailEntry<Product, int> (declared on
+        // AuditedEntity<TSelf, TKey>), so the key/columns/table must be configured on that
+        // base type; ProductAuditTrailEntry then maps onto the same table via table-per-
+        // hierarchy (it's the only concrete derived type, so no discriminator column is
+        // needed - EF omits it automatically for a single-type hierarchy).
+        modelBuilder.Entity<AuditTrailEntry<Product, int>>(builder =>
         {
             builder.ToTable("ProductAuditTrailEntries");
             builder.HasKey(e => e.Id);
