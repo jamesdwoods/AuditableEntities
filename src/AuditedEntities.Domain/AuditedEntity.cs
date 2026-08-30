@@ -16,6 +16,7 @@ namespace AuditedEntities.Domain;
 /// <typeparam name="TKey">The type of the primary key of <typeparamref name="TSelf"/>.</typeparam>
 public abstract class AuditedEntity<TSelf, TKey> : Entity<TKey>, IAudited<TSelf, TKey>
     where TSelf : AuditedEntity<TSelf, TKey>
+    where TKey : IComparable<TKey>
 {
     /// <summary>
     /// EF Core navigation collection of audit trail entries for this entity, keyed by

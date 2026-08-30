@@ -9,6 +9,7 @@ namespace AuditedEntities.Domain;
 /// <typeparam name="TKey">The type of the primary key of <typeparamref name="TEntity"/>.</typeparam>
 public abstract class AuditTrailEntry<TEntity, TKey>
     where TEntity : Entity<TKey>
+    where TKey : IComparable<TKey>
 {
     /// <summary>
     /// Surrogate primary key of the audit trail entry itself.

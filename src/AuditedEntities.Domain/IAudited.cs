@@ -10,6 +10,7 @@ namespace AuditedEntities.Domain;
 /// <typeparam name="TKey">The type of the primary key of <typeparamref name="TEntity"/>.</typeparam>
 public interface IAudited<TEntity, TKey>
     where TEntity : Entity<TKey>
+    where TKey : IComparable<TKey>
 {
     /// <summary>
     /// Returns the set of audit trail entries recorded for the given entity instance,

@@ -6,7 +6,8 @@ Entity Framework Core-managed SQL Server entities.
 ## Projects
 
 - **AuditedEntities.Domain** — abstractions, no EF/SQL dependency:
-  - `Entity<TKey>` — abstract base class for entities, parameterized on the primary key type.
+  - `Entity<TKey>` — abstract base class for entities, parameterized on the primary key
+    type (`TKey : IComparable<TKey>`, so entities can be ordered/sorted by key).
   - `AuditTrailEntry<TEntity, TKey>` — abstract base class for a single audited field
     change (`EntityId`, `Timestamp`, `UserId`, `FieldId`, `OldValue`, `NewValue`),
     constrained so `TEntity : Entity<TKey>` (conceptually `AuditTrailEntry<Entity<TKey>>`).
