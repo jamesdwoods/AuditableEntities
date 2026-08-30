@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AuditedEntities.Data/AuditedEntities.Data.csproj" />
+    <Project Path="src/AuditedEntities.Domain/AuditedEntities.Domain.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AuditedEntities.Data.Tests/AuditedEntities.Data.Tests.csproj" />
+  </Folder>
+</Solution>

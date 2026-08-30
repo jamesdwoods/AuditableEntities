@@ -1,8 +1,8 @@
-using AuditableEntities.Data.Sample;
-using AuditableEntities.Domain;
+using AuditedEntities.Data.Sample;
+using AuditedEntities.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuditableEntities.Data;
+namespace AuditedEntities.Data;
 
 /// <summary>
 /// EF Core database context. Managed via EF Core migrations against SQL Server

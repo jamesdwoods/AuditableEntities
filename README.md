@@ -1,11 +1,11 @@
-# AuditableEntities
+# AuditedEntities
 
 A small C# solution demonstrating reusable base types for building auditable,
 Entity Framework Core-managed SQL Server entities.
 
 ## Projects
 
-- **AuditableEntities.Domain** — abstractions, no EF/SQL dependency:
+- **AuditedEntities.Domain** — abstractions, no EF/SQL dependency:
   - `Entity<TKey>` — abstract base class for entities, parameterized on the primary key type.
   - `AuditTrailEntry<TEntity, TKey>` — abstract base class for a single audited field
     change (`EntityId`, `Timestamp`, `UserId`, `FieldId`, `OldValue`, `NewValue`),
@@ -18,7 +18,7 @@ Entity Framework Core-managed SQL Server entities.
     navigation collection and implements both `IAudited.GetAuditTrail` and the
     `GetAuditTrailEntries` convenience method, so derived entities get audit trail
     support without re-implementing it.
-- **AuditableEntities.Data** — EF Core + SQL Server implementation:
+- **AuditedEntities.Data** — EF Core + SQL Server implementation:
   - `AppDbContext` — DbContext with `Products` and `ProductAuditTrailEntries` DbSets.
   - `Sample.Product` — example entity extending `AuditedEntity<Product, int>` (rather than
     implementing `IAudited` itself), so it gets the `AuditTrail` navigation collection and
@@ -33,14 +33,14 @@ Entity Framework Core-managed SQL Server entities.
   - `AppDbContext.SaveChanges`/`SaveChangesAsync` automatically create a
     `ProductAuditTrailEntry` per added/changed scalar field on tracked `Product`s
     (attributed to `AppDbContext.CurrentUserId`, default `"system"`).
-- **AuditableEntities.Data.Tests** — xUnit tests that run EF Core migrations against a
+- **AuditedEntities.Data.Tests** — xUnit tests that run EF Core migrations against a
   real SQL Server LocalDB instance (a fresh, disposable database per test) and verify
   that creating a product and changing its price produces the expected audit trail.
 
 ## Working with migrations
 
 ```powershell
-cd src\AuditableEntities.Data
+cd src\AuditedEntities.Data
 dotnet ef migrations add <Name>
 dotnet ef database update   # requires a reachable SQL Server / LocalDB instance
 ```

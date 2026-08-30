@@ -1,4 +1,4 @@
-namespace AuditableEntities.Domain;
+namespace AuditedEntities.Domain;
 
 /// <summary>
 /// Base class for all entities persisted via Entity Framework.

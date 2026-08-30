@@ -1,4 +1,4 @@
-namespace AuditableEntities.Domain;
+namespace AuditedEntities.Domain;
 
 /// <summary>
 /// Represents a single audited change to a field on an instance of <typeparamref name="TEntity"/>.

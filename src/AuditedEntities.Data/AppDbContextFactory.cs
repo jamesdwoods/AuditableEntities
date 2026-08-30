@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace AuditableEntities.Data;
+namespace AuditedEntities.Data;
 
 /// <summary>
 /// Enables "dotnet ef migrations add/remove" and "dotnet ef database update" to run
@@ -15,7 +15,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseSqlServer(
-            "Server=(localdb)\\mssqllocaldb;Database=AuditableEntities;Trusted_Connection=True;MultipleActiveResultSets=true");
+            "Server=(localdb)\\mssqllocaldb;Database=AuditedEntities;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         return new AppDbContext(optionsBuilder.Options);
     }

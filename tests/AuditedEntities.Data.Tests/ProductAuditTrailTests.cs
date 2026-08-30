@@ -1,8 +1,8 @@
-using AuditableEntities.Data;
-using AuditableEntities.Data.Sample;
+using AuditedEntities.Data;
+using AuditedEntities.Data.Sample;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuditableEntities.Data.Tests;
+namespace AuditedEntities.Data.Tests;
 
 /// <summary>
 /// Exercises the full stack (EF Core migrations against a real SQL Server instance) to
@@ -15,7 +15,7 @@ public class ProductAuditTrailTests : IDisposable
 
     public ProductAuditTrailTests()
     {
-        const string databaseName = "AuditableEntities_Test";
+        const string databaseName = "AuditedEntities_Test";
         var connectionString =
             $"Server=localhost;Database={databaseName};Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
 
@@ -66,7 +66,7 @@ public class ProductAuditTrailTests : IDisposable
     public void Dispose()
     {
         // Intentionally left in place for manual inspection (e.g. SSMS/sqlcmd against
-        // "AuditableEntities_Test" on localhost). It is dropped and recreated at the
+        // "AuditedEntities_Test" on localhost). It is dropped and recreated at the
         // start of the next test run.
         _context.Dispose();
         GC.SuppressFinalize(this);

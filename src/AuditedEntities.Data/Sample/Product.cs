@@ -1,6 +1,6 @@
-using AuditableEntities.Domain;
+using AuditedEntities.Domain;
 
-namespace AuditableEntities.Data.Sample;
+namespace AuditedEntities.Data.Sample;
 
 // Product extends AuditedEntity, so it gets its AuditTrail navigation collection and
 // IAudited.GetAuditTrail implementation for free - eagerly load audit history with

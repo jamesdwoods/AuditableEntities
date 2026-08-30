@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuditableEntities.Data.Migrations
+namespace AuditedEntities.Data.Migrations
 {
     /// <inheritdoc />
     public partial class ProductExtendsAuditedEntity : Migration

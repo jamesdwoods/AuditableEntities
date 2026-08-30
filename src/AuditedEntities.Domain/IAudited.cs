@@ -1,4 +1,4 @@
-namespace AuditableEntities.Domain;
+namespace AuditedEntities.Domain;
 
 /// <summary>
 /// Implemented by services/repositories that can produce the audit trail history

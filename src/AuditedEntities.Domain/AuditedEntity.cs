@@ -1,4 +1,4 @@
-namespace AuditableEntities.Domain;
+namespace AuditedEntities.Domain;
 
 /// <summary>
 /// Convenience base class for entities that want built-in audit trail support:
