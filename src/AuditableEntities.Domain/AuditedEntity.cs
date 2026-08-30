@@ -2,7 +2,7 @@ namespace AuditableEntities.Domain;
 
 /// <summary>
 /// Convenience base class for entities that want built-in audit trail support:
-/// it extends <see cref="Entity{TKey}"/>, implements <see cref="IAuditable{TEntity, TKey}"/>
+/// it extends <see cref="Entity{TKey}"/>, implements <see cref="IAudited{TEntity, TKey}"/>
 /// for itself, and exposes/implements <see cref="GetAuditTrailEntries"/> via an
 /// <see cref="AuditTrail"/> navigation collection (populate it with
 /// <c>.Include(x => x.AuditTrail)</c> when querying).
@@ -14,7 +14,7 @@ namespace AuditableEntities.Domain;
 /// to the concrete entity without every derived class re-implementing them.
 /// </typeparam>
 /// <typeparam name="TKey">The type of the primary key of <typeparamref name="TSelf"/>.</typeparam>
-public abstract class AuditedEntity<TSelf, TKey> : Entity<TKey>, IAuditable<TSelf, TKey>
+public abstract class AuditedEntity<TSelf, TKey> : Entity<TKey>, IAudited<TSelf, TKey>
     where TSelf : AuditedEntity<TSelf, TKey>
 {
     /// <summary>
@@ -29,7 +29,7 @@ public abstract class AuditedEntity<TSelf, TKey> : Entity<TKey>, IAuditable<TSel
     /// <summary>
     /// Returns the set of audit trail entries recorded for the given entity instance,
     /// ordered chronologically. This is the concrete implementation backing
-    /// <see cref="IAuditable{TEntity, TKey}.GetAuditTrail"/>.
+    /// <see cref="IAudited{TEntity, TKey}.GetAuditTrail"/>.
     /// </summary>
     /// <param name="entity">The entity to retrieve audit trail entries for.</param>
     public IReadOnlyCollection<AuditTrailEntry<TSelf, TKey>> GetAuditTrailEntries(TSelf entity) =>

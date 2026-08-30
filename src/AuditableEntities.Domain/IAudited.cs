@@ -3,12 +3,12 @@ namespace AuditableEntities.Domain;
 /// <summary>
 /// Implemented by services/repositories that can produce the audit trail history
 /// for a given entity. The constraint <c>TEntity : Entity&lt;TKey&gt;</c> means this is
-/// effectively <c>IAuditable&lt;Entity&lt;TKey&gt;&gt;</c>, with the key type named explicitly
+/// effectively <c>IAudited&lt;Entity&lt;TKey&gt;&gt;</c>, with the key type named explicitly
 /// so it can be used to strongly type <see cref="AuditTrailEntry{TEntity, TKey}"/>.
 /// </summary>
 /// <typeparam name="TEntity">The entity type being audited.</typeparam>
 /// <typeparam name="TKey">The type of the primary key of <typeparamref name="TEntity"/>.</typeparam>
-public interface IAuditable<TEntity, TKey>
+public interface IAudited<TEntity, TKey>
     where TEntity : Entity<TKey>
 {
     /// <summary>

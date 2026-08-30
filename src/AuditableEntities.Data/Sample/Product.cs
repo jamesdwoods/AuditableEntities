@@ -7,10 +7,10 @@ namespace AuditableEntities.Data.Sample;
 // with `.Include(p => p.AuditTrail)` and call GetAuditTrail().
 
 /// <summary>
-/// Example concrete entity used to demonstrate the Entity/AuditTrailEntry/IAuditable
+/// Example concrete entity used to demonstrate the Entity/AuditTrailEntry/IAudited
 /// abstractions end-to-end with Entity Framework Core against SQL Server.
 /// </summary>
-public class Product : Entity<int>, IAuditable<Product, int>
+public class Product : Entity<int>, IAudited<Product, int>
 {
     public required string Name { get; set; }
 

@@ -10,17 +10,17 @@ Entity Framework Core-managed SQL Server entities.
   - `AuditTrailEntry<TEntity, TKey>` — abstract base class for a single audited field
     change (`EntityId`, `Timestamp`, `UserId`, `FieldId`, `OldValue`, `NewValue`),
     constrained so `TEntity : Entity<TKey>` (conceptually `AuditTrailEntry<Entity<TKey>>`).
-  - `IAuditable<TEntity, TKey>` — implemented by an entity (or service) that can return
+  - `IAudited<TEntity, TKey>` — implemented by an entity (or service) that can return
     its `AuditTrailEntry<TEntity, TKey>` history.
   - `AuditedEntity<TSelf, TKey>` — optional convenience base class combining `Entity<TKey>`
-    and `IAuditable<TSelf, TKey>` via the curiously-recurring-template pattern
+    and `IAudited<TSelf, TKey>` via the curiously-recurring-template pattern
     (`class Product : AuditedEntity<Product, int>`). Provides the `AuditTrail`
-    navigation collection and implements both `IAuditable.GetAuditTrail` and the
+    navigation collection and implements both `IAudited.GetAuditTrail` and the
     `GetAuditTrailEntries` convenience method, so derived entities get audit trail
     support without re-implementing it.
 - **AuditableEntities.Data** — EF Core + SQL Server implementation:
   - `AppDbContext` — DbContext with `Products` and `ProductAuditTrailEntries` DbSets.
-  - `Sample.Product` — example entity (`Entity<int>`) that implements `IAuditable<Product, int>`
+  - `Sample.Product` — example entity (`Entity<int>`) that implements `IAudited<Product, int>`
     directly, exposing its audit history as the EF navigation collection `AuditTrail`
     (no separate repository/reader class needed — just `.Include(p => p.AuditTrail)`).
   - `Sample.ProductAuditTrailEntry` — concrete `AuditTrailEntry<Product, int>`.
@@ -48,7 +48,7 @@ at runtime (e.g. from configuration/DI) instead.
 
 ## Extending to a new entity
 
-1. Create `MyEntity : Entity<TKey>, IAuditable<MyEntity, TKey>` with an
+1. Create `MyEntity : Entity<TKey>, IAudited<MyEntity, TKey>` with an
    `ICollection<MyEntityAuditTrailEntry> AuditTrail` navigation property.
 2. Create `MyEntityAuditTrailEntry : AuditTrailEntry<MyEntity, TKey>`.
 3. Register both `DbSet`s and configure the relationship in `AppDbContext.OnModelCreating`,
