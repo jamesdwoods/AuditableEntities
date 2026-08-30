@@ -12,6 +12,12 @@ Entity Framework Core-managed SQL Server entities.
     constrained so `TEntity : Entity<TKey>` (conceptually `AuditTrailEntry<Entity<TKey>>`).
   - `IAuditable<TEntity, TKey>` — implemented by an entity (or service) that can return
     its `AuditTrailEntry<TEntity, TKey>` history.
+  - `AuditedEntity<TSelf, TKey>` — optional convenience base class combining `Entity<TKey>`
+    and `IAuditable<TSelf, TKey>` via the curiously-recurring-template pattern
+    (`class Product : AuditedEntity<Product, int>`). Provides the `AuditTrail`
+    navigation collection and implements both `IAuditable.GetAuditTrail` and the
+    `GetAuditTrailEntries` convenience method, so derived entities get audit trail
+    support without re-implementing it.
 - **AuditableEntities.Data** — EF Core + SQL Server implementation:
   - `AppDbContext` — DbContext with `Products` and `ProductAuditTrailEntries` DbSets.
   - `Sample.Product` — example entity (`Entity<int>`) that implements `IAuditable<Product, int>`
