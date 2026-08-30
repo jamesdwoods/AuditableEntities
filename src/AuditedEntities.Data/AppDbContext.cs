@@ -103,7 +103,7 @@ public class AppDbContext : DbContext
             builder.HasMany(p => p.AuditTrail)
                 .WithOne()
                 .HasForeignKey(e => e.EntityId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // AuditTrail is typed as the abstract AuditTrailEntry<Product, int> (declared on
