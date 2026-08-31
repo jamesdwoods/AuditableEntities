@@ -7,7 +7,7 @@ namespace AuditedEntities.Domain;
 /// </summary>
 /// <typeparam name="TEntity">The entity type this audit trail entry describes changes for.</typeparam>
 /// <typeparam name="TKey">The type of the primary key of <typeparamref name="TEntity"/>.</typeparam>
-public abstract class AuditTrailEntry<TEntity, TKey>
+public abstract class AuditTrailEntry<TEntity, TKey> : IComparable<AuditTrailEntry<TEntity, TKey>>
     where TEntity : Entity<TKey>
     where TKey : IComparable<TKey>
 {
@@ -47,4 +47,10 @@ public abstract class AuditTrailEntry<TEntity, TKey>
     /// was cleared.
     /// </summary>
     public string? NewValue { get; set; }
+
+    /// <summary>
+    /// Compares audit trail entries by their surrogate primary key (<see cref="Id"/>),
+    /// so that entries naturally sort in the order they were created.
+    /// </summary>
+    public int CompareTo(AuditTrailEntry<TEntity, TKey>? other) => other is null ? 1 : Id.CompareTo(other.Id);
 }
