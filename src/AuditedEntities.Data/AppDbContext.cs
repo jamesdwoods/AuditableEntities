@@ -113,7 +113,7 @@ public class AppDbContext : DbContext
         // needed - EF omits it automatically for a single-type hierarchy).
         modelBuilder.Entity<AuditTrailEntry<Product, int>>(builder =>
         {
-            builder.ToTable("ProductAuditTrailEntries");
+            builder.ToTable("ProductAuditTrailEntry");
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.EntityId).IsRequired();

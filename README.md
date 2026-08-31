@@ -25,11 +25,11 @@ Entity Framework Core-managed SQL Server entities.
     implementing `IAudited` itself), so it gets the `AuditTrail` navigation collection and
     `GetAuditTrail`/`GetAuditTrailEntries` for free — just `.Include(p => p.AuditTrail)`.
   - `Sample.ProductAuditTrailEntry` — concrete `AuditTrailEntry<Product, int>`, mapped via
-    EF Core table-per-hierarchy onto the same `ProductAuditTrailEntries` table as the
+    EF Core table-per-hierarchy onto the same `ProductAuditTrailEntry` table as the
     abstract base type (it's the only concrete leaf, so the `Discriminator` column is
     always `"ProductAuditTrailEntry"`).
   - `AppDbContextFactory` — design-time factory so `dotnet ef` works without a startup project.
-  - `Migrations/` — initial migration creating `Products` and `ProductAuditTrailEntries`
+  - `Migrations/` — initial migration creating `Products` and `ProductAuditTrailEntry`
     tables with a FK from the audit table to `Products.Id`.
   - `AppDbContext.SaveChanges`/`SaveChangesAsync` automatically create a
     `ProductAuditTrailEntry` per added/changed scalar field on tracked `Product`s
