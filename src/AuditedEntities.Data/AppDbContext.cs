@@ -40,10 +40,12 @@ public class AppDbContext : DbContext
 
     /// <summary>
     /// Inspects tracked <see cref="Product"/> entries for added/modified scalar
-    /// property values and appends a <see cref="ProductAuditTrailEntry"/> per
-    /// changed field to that product's <see cref="Product.AuditTrail"/> navigation
-    /// collection. EF Core fixes up the FK (<see cref="ProductAuditTrailEntry.EntityId"/>)
-    /// automatically once the product's key is generated, even for new products.
+    /// property values and appends an audit entry per changed field via
+    /// <see cref="AuditedEntity{TSelf, TKey}.AddAuditTrailEntry"/>, which never exposes
+    /// the underlying collection or the concrete <see cref="ProductAuditTrailEntry"/>
+    /// type to this method. EF Core fixes up the FK
+    /// (<see cref="ProductAuditTrailEntry.EntityId"/>) automatically once the product's
+    /// key is generated, even for new products.
     /// </summary>
     private void CreateAuditTrailEntries()
     {
@@ -77,15 +79,7 @@ public class AppDbContext : DbContext
                     continue;
                 }
 
-                entry.Entity.AuditTrail.Add(new ProductAuditTrailEntry
-                {
-                    EntityId = entry.Entity.Id,
-                    Timestamp = timestamp,
-                    UserId = CurrentUserId,
-                    FieldId = property.Metadata.Name,
-                    OldValue = oldValue,
-                    NewValue = newValue,
-                });
+                entry.Entity.AddAuditTrailEntry(timestamp, CurrentUserId, property.Metadata.Name, oldValue, newValue);
             }
         }
     }
@@ -100,7 +94,10 @@ public class AppDbContext : DbContext
             builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
             builder.Property(p => p.Price).HasColumnType("decimal(18,2)");
 
-            builder.HasMany(p => p.AuditTrail)
+            // AuditTrail is `protected` on AuditedEntity<TSelf, TKey> (not publicly
+            // accessible), so it's configured here by navigation name rather than a
+            // `p => p.AuditTrail` lambda.
+            builder.HasMany<AuditTrailEntry<Product, int>>("AuditTrail")
                 .WithOne()
                 .HasForeignKey(e => e.EntityId)
                 .OnDelete(DeleteBehavior.Restrict);

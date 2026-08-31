@@ -15,4 +15,16 @@ public class Product : AuditedEntity<Product, int>
     public required string Name { get; set; }
 
     public decimal Price { get; set; }
+
+    protected override AuditTrailEntry<Product, int> CreateAuditTrailEntry(
+        int entityId, DateTimeOffset timestamp, string userId, string fieldId, string? oldValue, string? newValue) =>
+        new ProductAuditTrailEntry
+        {
+            EntityId = entityId,
+            Timestamp = timestamp,
+            UserId = userId,
+            FieldId = fieldId,
+            OldValue = oldValue,
+            NewValue = newValue,
+        };
 }
